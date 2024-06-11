@@ -1,103 +1,125 @@
-# attack_trees
+# Tree Climber - Automotive Threat Modeling and Attack Tree Tool
 
-## Calculating Attack Trees Using the EVITA Method
+## Background
+[The EVITA Method for attack trees](EVITA.md)
 
-The EVITA (E-safety Vehicle Intrusion proTected Applications) method involves assessing the security of automotive systems by using attack trees. Attack trees are a formal method for modeling potential security threats. Below is a guide on how to calculate attack trees based on the EVITA method.
+## **Python Tool for Attack Trees Using the EVITA Method**
 
-### 1. Attack Tree Structure
+### **1. Core Features**
 
-An attack tree models how a system can be attacked. The tree consists of:
-- **Nodes**: Each node represents a possible attack or a step in an attack.
-- **Edges**: The connections between nodes represent the progression of the attack.
+#### **1.1. Attack Tree Construction**
+- **Node Creation:** Functions to create leaf, AND, and OR nodes with attributes for probabilities, costs, and impacts.
+- **Tree Building:** Methods to connect nodes into a hierarchical attack tree structure.
+- **Tree Editing:** Ability to add, remove, or modify nodes and branches.
 
-### 2. Probability Calculation
+#### **1.2. Probability Calculation**
+- **Leaf Node Probability Input:** Accept input probabilities for leaf nodes.
+- **AND Node Probability Calculation:** Automatically compute probabilities for AND nodes using child node probabilities.
+- **OR Node Probability Calculation:** Automatically compute probabilities for OR nodes using child node probabilities.
+- **Propagation:** Propagate calculated probabilities from leaf nodes to the root node.
 
-To calculate the probability of an attack using the EVITA method:
+#### **1.3. Cost and Impact Calculation**
+- **Cost Calculation:** Compute the total cost for AND and OR nodes.
+- **Impact Calculation:** Compute the total impact for AND and OR nodes.
+- **Propagation:** Propagate calculated costs and impacts from leaf nodes to the root node.
 
-- **Leaf Node Probability**: For each leaf node, determine the probability `P_i` of the attack step occurring. This might be based on historical data, expert judgment, or probabilistic models.
+#### **1.4. Tree Analysis**
+- **Risk Assessment:** Calculate overall risk based on probabilities, costs, and impacts.
+- **Sensitivity Analysis:** Analyze how changes in input values affect the overall risk.
+- **Scenario Analysis:** Compare different attack scenarios to evaluate potential security threats.
 
-- **AND Nodes**: For a parent node `P_{\text{AND}}` with `n` child nodes, the probability of the AND node occurring is the product of the probabilities of its child nodes.
+### **2. Advanced Features**
 
-$$
-P_{\text{AND}} = \prod_{i=1}^{n} P_i
-$$
+#### **2.1. Visualization**
+- **Graphical Representation:** Visualize attack trees using graph libraries such as NetworkX or Graphviz.
+- **Interactive Tools:** Provide interactive tools to explore and manipulate the attack tree visually.
+- **Export Options:** Export attack tree diagrams to various formats (e.g., PNG, SVG).
 
-- **OR Nodes**: For a parent node \( P_{\text{OR}} \) with \( n \) child nodes, the probability of the OR node occurring is the probability that at least one of the child nodes occurs.
+#### **2.2. Reporting**
+- **Summary Reports:** Generate summary reports of attack tree analysis, including probabilities, costs, and impacts.
+- **Detailed Reports:** Provide detailed reports with node-by-node analysis and scenario evaluations.
+- **Customizable Templates:** Allow customization of report templates to meet specific needs.
 
-$$
-P_{\text{OR}} = 1 - \prod_{i=1}^{n} (1 - P_i)
-$$
+#### **2.3. Input and Output Handling**
+- **Data Import:** Import attack tree data from files (e.g., JSON, XML).
+- **Data Export:** Export attack tree data for use in other tools or for documentation.
+- **Integration:** APIs or modules for integrating with other risk management or security analysis tools.
 
-### 3. Cost Calculation
+#### **2.4. User Interface**
+- **CLI:** Command-line interface for building and analyzing attack trees.
+- **GUI:** Optionally, a graphical user interface for users who prefer a visual interaction.
 
-The cost associated with mitigating or dealing with an attack can also be assessed:
-- **Leaf Node Cost**: Assign a cost \( C_i \) to each leaf node, representing the cost of mitigating or handling that attack step.
+### **3. Implementation Details**
 
-- **AND Nodes**: For a parent node \( C_{\text{AND}} \) with \( n \) child nodes, the cost is typically the sum of the costs of its child nodes.
+#### **3.1. Modules and Packages**
+- **`attack_tree.py`**: Core module for defining and managing the attack tree structure.
+- **`probability.py`**: Functions for probability calculations.
+- **`cost_impact.py`**: Functions for cost and impact calculations.
+- **`visualization.py`**: Functions for visualizing the attack tree.
+- **`analysis.py`**: Advanced analysis functions, including risk and sensitivity analysis.
+- **`io.py`**: Functions for importing/exporting data.
+- **`reporting.py`**: Functions for generating reports.
 
-$$
-C_{\text{AND}} = \sum_{i=1}^{n} C_i
-$$
+#### **3.2. Libraries and Tools**
+- **Data Handling:** `pandas` for data manipulation.
+- **Graph Visualization:** `networkx` and `matplotlib` or `graphviz` for tree visualization.
+- **Interactive Features:** `ipywidgets` or similar for interactive elements in Jupyter Notebooks.
+- **File I/O:** `json`, `xml.etree.ElementTree` for import/export functionalities.
 
-- **OR Nodes**: For a parent node \( C_{\text{OR}} \) with \( n \) child nodes, the cost might be the minimum cost among its child nodes, assuming that mitigating one child node may be sufficient.
+### **4. Sample Workflow**
 
-$$
-C_{\text{OR}} = \min_{i=1}^{n} C_i
-$$
+#### **4.1. Creating and Building an Attack Tree**
 
-### 4. Impact Assessment
+```python
+from attack_tree import AttackTree, Node
 
-Impact is assessed similarly:
-- **Leaf Node Impact**: Assign an impact \( I_i \) to each leaf node, representing the potential impact if that attack step is successful.
+# Create nodes
+leaf1 = Node(name="Attack Step 1", probability=0.2, cost=100, impact=50)
+leaf2 = Node(name="Attack Step 2", probability=0.1, cost=200, impact=80)
 
-- **AND Nodes**: For a parent node \( I_{\text{AND}} \) with \( n \) child nodes, the impact might be the sum of the impacts of its child nodes.
+# Create AND/OR nodes
+or_node = Node(name="OR Node", node_type="OR")
+and_node = Node(name="AND Node", node_type="AND")
 
-$$
-I_{\text{AND}} = \sum_{i=1}^{n} I_i
-$$
+# Build tree
+or_node.add_child(leaf1)
+or_node.add_child(leaf2)
+and_node.add_child(or_node)
 
-- **OR Nodes**: For a parent node \( I_{\text{OR}} \) with \( n \) child nodes, the impact might be the maximum impact among its child nodes, assuming that any single child node's impact is significant.
+# Create attack tree
+attack_tree = AttackTree(root=and_node)
+```
 
-$$
-I_{\text{OR}} = \max_{i=1}^{n} I_i
-$$
+#### **4.2. Calculating Probabilities**
 
-### Steps for Applying the EVITA Method
+```python
+from probability import calculate_probabilities
 
-1. **Model the Attack Tree**: Define the structure of your attack tree, including the nodes and their relationships.
-   
-2. **Assign Probabilities, Costs, and Impacts**: Determine the probabilities, costs, and impacts for each leaf node.
-   
-3. **Calculate Node Values**: Use the formulas above to calculate the probabilities, costs, and impacts for AND and OR nodes.
+# Calculate probabilities for the tree
+calculate_probabilities(attack_tree)
+```
 
-4. **Analyze Results**: Use the calculated values to assess the overall security posture of the system, focusing on the most significant threats based on their probability, cost, and impact.
+#### **4.3. Visualizing the Tree**
 
-### Example
+```python
+from visualization import plot_attack_tree
 
-Consider a simplified attack tree with two leaf nodes under an OR node:
+# Plot the attack tree
+plot_attack_tree(attack_tree)
+```
 
-- Leaf Node 1: \( P_1 = 0.2 \), \( C_1 = 100 \), \( I_1 = 50 \)
-- Leaf Node 2: \( P_2 = 0.1 \), \( C_2 = 200 \), \( I_2 = 80 \)
+#### **4.4. Generating Reports**
 
-For the OR node:
+```python
+from reporting import generate_report
 
-$$
-P_{\text{OR}} = 1 - (1 - 0.2) \cdot (1 - 0.1) = 1 - 0.8 \cdot 0.9 = 1 - 0.72 = 0.28
-$$
+# Generate a report
+generate_report(attack_tree, "report.pdf")
+```
 
-$$
-C_{\text{OR}} = \min(100, 200) = 100
-$$
+### **5. Future Enhancements**
 
-$$
-I_{\text{OR}} = \max(50, 80) = 80
-$$
-
-The probability of the OR node occurring is 0.28, with a cost of 100 and an impact of 80.
-
-### References and Further Reading
-
-- **EVITA Project Documentation**: [EVITA Project](https://www.evita-project.org/)
-- **Schneier, Bruce. "Attack Trees: Modeling security threats."**
-- **Jürjens, Jan. "Secure Systems Development with UML."**
+- **Machine Learning Integration:** Incorporate ML models to predict probabilities based on historical data.
+- **Real-time Analysis:** Add real-time data handling for dynamic risk assessments.
+- **Collaboration Features:** Allow multiple users to collaborate on building and analyzing attack trees.
 
