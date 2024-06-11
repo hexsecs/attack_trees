@@ -14,9 +14,9 @@ An attack tree models how a system can be attacked. The tree consists of:
 
 To calculate the probability of an attack using the EVITA method:
 
-- **Leaf Node Probability**: For each leaf node, determine the probability \( P_i \) of the attack step occurring. This might be based on historical data, expert judgment, or probabilistic models.
+- **Leaf Node Probability**: For each leaf node, determine the probability `P_i` of the attack step occurring. This might be based on historical data, expert judgment, or probabilistic models.
 
-- **AND Nodes**: For a parent node \( P_{\text{AND}} \) with \( n \) child nodes, the probability of the AND node occurring is the product of the probabilities of its child nodes.
+- **AND Nodes**: For a parent node `P_{\text{AND}}` with `n` child nodes, the probability of the AND node occurring is the product of the probabilities of its child nodes.
 
 $$
 P_{\text{AND}} = \prod_{i=1}^{n} P_i
