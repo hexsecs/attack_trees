@@ -2,6 +2,82 @@
 
 The EVITA (E-safety Vehicle Intrusion proTected Applications) method involves assessing the security of automotive systems by using attack trees. Attack trees are a formal method for modeling potential security threats. Below is a guide on how to calculate attack trees based on the EVITA method.
 
+The attack feasibility rating in the context of the EVITA methodology and ISO/SAE 21434 standards is calculated based on multiple factors that assess the difficulty of executing an attack. 
+
+The factors include:
+1. **Elapsed Time (ET)**: How long the attack takes to execute.
+2. **Specialist Expertise (E)**: The level of expertise required to carry out the attack.
+3. **Knowledge (K)**: The level of knowledge required about the system or the attack.
+4. **Window of Opportunity (WO)**: The duration and difficulty of the opportunity window to perform the attack.
+5. **Equipment (EQ)**: The type of equipment required to perform the attack.
+
+### **Calculating the Attack Potential**
+
+#### **1. Elapsed Time (ET)**
+
+- **0**: < 1 day
+- **1**: ≤ 1 week
+- **4**: ≤ 1 month
+- **10**: ≤ 3 months
+- **17**: ≤ 6 months
+- **19**: > 6 months
+
+#### **2. Specialist Expertise (E)**
+
+- **0**: Layman
+- **3**: Proficient
+- **6**: Expert
+- **8**: Multiple Experts
+
+#### **3. Knowledge (K)**
+
+- **0**: Public
+- **3**: Restricted
+- **7**: Confidential
+- **11**: Strictly Confidential
+
+#### **4. Window of Opportunity (WO)**
+
+- **0**: Unlimited
+- **1**: Easy
+- **4**: Moderate
+- **10**: Difficult
+
+#### **5. Equipment (EQ)**
+
+- **0**: Standard
+- **4**: Specialized
+- **7**: Bespoke
+- **9**: Multiple Bespoke
+
+### **Steps to Calculate Attack Feasibility Rating**
+
+1. **Assess Each Factor**:
+   - Each factor is assigned a score according to the values defined above.
+
+2. **Sum the Scores**:
+   - The individual scores for ET, E, K, WO, and EQ are summed to produce a total attack potential score.
+
+3. **Determine the Feasibility Level**:
+   - The summed score can be mapped to an attack feasibility level, where lower scores indicate higher feasibility (easier attack) and higher scores indicate lower feasibility (more difficult attack).
+
+#### **Example Calculation**
+
+Suppose we have the following scores for a particular attack step:
+
+- **Elapsed Time (ET)**: **4** (≤ 1 month)
+- **Specialist Expertise (E)**: **6** (Expert)
+- **Knowledge (K)**: **7** (Confidential)
+- **Window of Opportunity (WO)**: **4** (Moderate)
+- **Equipment (EQ)**: **4** (Specialized)
+
+The total score would be:
+
+`{Total Attack Potential} = 4 + 6 + 7 + 4 + 4 = 25`
+
+The higher the total score, the less feasible the attack is. Conversely, a lower total score indicates a more feasible (easier) attack.
+
+
 ### 1. Attack Tree Structure
 
 An attack tree models how a system can be attacked. The tree consists of:
